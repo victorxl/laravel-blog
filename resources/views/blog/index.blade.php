@@ -32,7 +32,7 @@
 
         <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
             <div>
-                <img src="https://cdn.pixabay.com/photo/2015/01/08/18/24/children-593313_960_720.jpg" width="700" alt="">
+                <img src="{{ asset('images/' . $post->image_path) }}" width="700" alt="">
             </div>
 
             <div class="text-left">
@@ -52,6 +52,31 @@
                     Keep Reading
                 </a>
 
+                @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id) 
+                    <span class="float-right">
+                        <a 
+                            href="/blog/{{ $post->slug }}/edit"
+                            class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2 ">
+                            Edit
+                        </a>
+                    </span>
+
+                    <span class="float-right">
+                        <form
+                            action="/blog/{{ $post->slug }}"
+                            method="POST">
+                            @csrf
+                            @method('delete')
+
+                            <button
+                                class="text-red-500 pr-3"
+                                type="submit">
+                                Delete
+                            </button>
+
+                        </form>
+                    </span>
+                @endif
             </div>
         </div>
 
